@@ -1,19 +1,57 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
-const projects = ["Modern Living", "Minimal Bedroom", "Luxury Kitchen", "Villa Interior", "Workspace", "Premium Apartment"];
+import heroBg from "@/assets/hero-bg.jpg";
+import projectModernLiving from "@/assets/project-modern-living.jpg";
+import projectMinimalBedroom from "@/assets/project-minimal-bedroom.jpg";
+import projectLuxuryKitchen from "@/assets/project-luxury-kitchen.jpg";
+import projectVilla from "@/assets/project-villa.jpg";
+import projectWorkspace from "@/assets/project-workspace.jpg";
+import projectApartment from "@/assets/project-apartment.jpg";
+import aboutImg from "@/assets/about.jpg";
+import showcaseImg from "@/assets/showcase.jpg";
+import before1 from "@/assets/before-1.jpg";
+import after1 from "@/assets/after-1.jpg";
+import before2 from "@/assets/before-2.jpg";
+import after2 from "@/assets/after-2.jpg";
+
+const projects = [
+  { name: "Modern Living", image: projectModernLiving },
+  { name: "Minimal Bedroom", image: projectMinimalBedroom },
+  { name: "Luxury Kitchen", image: projectLuxuryKitchen },
+  { name: "Villa Interior", image: projectVilla },
+  { name: "Workspace", image: projectWorkspace },
+  { name: "Premium Apartment", image: projectApartment },
+];
+
+const transformations = [
+  { before: before1, after: after1 },
+  { before: before2, after: after2 },
+];
+
 const testimonials = [
   "Transformed our home into something truly luxurious.",
   "Smooth process and outstanding attention to detail.",
   "Our space feels completely elevated now.",
 ];
 
+const scrollToProjects = () => {
+  document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+};
+
 const Index = () => {
   return (
     <div className="bg-background text-foreground font-sans overflow-x-hidden">
       {/* Hero */}
       <section className="h-screen flex flex-col justify-center items-center text-center px-6 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-background/80 to-background" />
+        <img
+          src={heroBg}
+          alt="Luxury interior"
+          className="absolute inset-0 w-full h-full object-cover"
+          width={1920}
+          height={1080}
+        />
+        <div className="absolute inset-0 bg-background/70" />
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -26,7 +64,7 @@ const Index = () => {
           <p className="mt-6 max-w-xl text-lg text-muted-foreground">
             Designing elevated living experiences through timeless interiors.
           </p>
-          <Button variant="hero" className="mt-8">
+          <Button variant="hero" className="mt-8" onClick={scrollToProjects}>
             Explore Projects
           </Button>
         </motion.div>
@@ -36,7 +74,7 @@ const Index = () => {
       <div className="text-center text-muted-foreground pb-10">Scroll to explore ↓</div>
 
       {/* Projects */}
-      <section className="py-28 px-6 md:px-20">
+      <section id="projects" className="py-28 px-6 md:px-20 scroll-mt-8">
         <motion.h2
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -51,27 +89,48 @@ const Index = () => {
           {projects.map((item, i) => (
             <motion.div
               key={i}
-              whileHover={{ scale: 1.05 }}
-              className="h-72 rounded-3xl bg-glass backdrop-blur-lg flex items-end p-6 group cursor-pointer"
+              whileHover={{ scale: 1.03 }}
+              className="h-72 rounded-3xl overflow-hidden relative group cursor-pointer"
             >
-              <p className="text-lg group-hover:-translate-y-1 transition-transform">{item}</p>
+              <img
+                src={item.image}
+                alt={item.name}
+                loading="lazy"
+                width={800}
+                height={600}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent" />
+              <p className="absolute bottom-6 left-6 text-lg font-medium z-10 group-hover:-translate-y-1 transition-transform">
+                {item.name}
+              </p>
             </motion.div>
           ))}
         </div>
       </section>
 
       {/* Showcase */}
-      <section className="h-[80vh] bg-glass flex items-center justify-center text-center px-6">
+      <section className="h-[80vh] relative flex items-center justify-center text-center px-6">
+        <img
+          src={showcaseImg}
+          alt="Effortless interior space"
+          loading="lazy"
+          width={1920}
+          height={1080}
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-background/70" />
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 1 }}
           viewport={{ once: true }}
+          className="relative z-10"
         >
           <h2 className="text-4xl md:text-5xl font-semibold mb-6">
             Spaces That Feel Effortless
           </h2>
-          <p className="text-muted-foreground max-w-xl">
+          <p className="text-muted-foreground max-w-xl mx-auto">
             Every detail is crafted to create harmony between design, comfort, and lifestyle.
           </p>
         </motion.div>
@@ -81,7 +140,7 @@ const Index = () => {
       <section className="py-28 px-6 md:px-20 bg-card">
         <h2 className="text-4xl font-semibold mb-16 text-center">Transformations</h2>
         <div className="grid md:grid-cols-2 gap-10">
-          {[1, 2].map((_, i) => (
+          {transformations.map((t, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 40 }}
@@ -90,11 +149,13 @@ const Index = () => {
               viewport={{ once: true }}
               className="grid grid-cols-2 gap-4"
             >
-              <div className="h-72 bg-glass rounded-3xl flex items-center justify-center text-muted-foreground">
-                Before
+              <div className="h-72 rounded-3xl overflow-hidden relative">
+                <img src={t.before} alt="Before" loading="lazy" width={800} height={600} className="w-full h-full object-cover" />
+                <span className="absolute top-4 left-4 bg-background/60 backdrop-blur-sm px-3 py-1 rounded-full text-sm text-muted-foreground">Before</span>
               </div>
-              <div className="h-72 bg-glass-hover rounded-3xl flex items-center justify-center text-secondary-foreground">
-                After
+              <div className="h-72 rounded-3xl overflow-hidden relative">
+                <img src={t.after} alt="After" loading="lazy" width={800} height={600} className="w-full h-full object-cover" />
+                <span className="absolute top-4 left-4 bg-background/60 backdrop-blur-sm px-3 py-1 rounded-full text-sm text-foreground">After</span>
               </div>
             </motion.div>
           ))}
@@ -119,8 +180,10 @@ const Index = () => {
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="h-96 bg-glass rounded-3xl"
-        />
+          className="h-96 rounded-3xl overflow-hidden"
+        >
+          <img src={aboutImg} alt="About IBR Designs" loading="lazy" width={800} height={960} className="w-full h-full object-cover" />
+        </motion.div>
       </section>
 
       {/* Testimonials */}
