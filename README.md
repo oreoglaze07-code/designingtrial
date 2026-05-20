@@ -1,3 +1,3 @@
-# Welcome to your Lovable project
+# IBR Designs
 
-TODO: Document your project here
+Refined interiors that elevate everyday living.
